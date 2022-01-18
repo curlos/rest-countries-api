@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <Navbar />  
-    <div className="searchAndFilter">
-      <div className="searchContainer">
+    <div class="searchAndFilter">
+      <div class="searchContainer">
         <div>
           <i class="fas fa-search"></i>
         </div>
@@ -98,8 +98,7 @@ export default {
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
+    gap: 20px;
   }
 
 </style>
