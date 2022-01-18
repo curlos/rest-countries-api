@@ -5,14 +5,19 @@
         Where in the world?
       </router-link>
 
-      <button class="modeButton">Dark Mode</button>
+      <div class="modeTheme">
+        <div>
+          <i class="fas fa-moon"></i>
+        </div>
+        <div>Dark Mode</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Header',
+  name: 'Country',
 }
 </script>
 
@@ -29,10 +34,12 @@ export default {
     color: var(--white);
     text-decoration: none;
     font-size: 20px;
-    font-family: 
+    font-weight: 600;
   }
 
-  .modeButton {
-
+  .modeTheme {
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 </style>
