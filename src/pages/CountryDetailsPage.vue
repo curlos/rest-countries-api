@@ -82,78 +82,23 @@
         </div>
       </div>
 
-      <div>{{ this.country.maps.openStreetMaps }}</div>
-
       <div style="height: 75vh; width: 50vw;">
         <l-map
           v-model="zoom"
           v-model:zoom="zoom"
-          :center="[47.41322, -1.219482]"
+          :center="[country.capitalInfo.latlng[0], country.capitalInfo.latlng[1]]"
           @move="log('move')"
         >
           <l-tile-layer
-            url="this.country.maps.openStreetMaps"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           ></l-tile-layer>
           <l-control-layers />
-          <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
+          <l-marker :lat-lng="[country.capitalInfo.latlng[0], country.capitalInfo.latlng[1]]" draggable @moveend="log('moveend')">
             <l-tooltip>
-              lol
+              {{ country.capital[0]}}
             </l-tooltip>
           </l-marker>
-
-          <l-marker :lat-lng="[47.41322, -1.219482]">
-            <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
-          </l-marker>
-
-          <l-marker :lat-lng="[50, 50]" draggable @moveend="log('moveend')">
-            <l-popup>
-              lol
-            </l-popup>
-          </l-marker>
-
-          <l-polyline
-            :lat-lngs="[
-              [47.334852, -1.509485],
-              [47.342596, -1.328731],
-              [47.241487, -1.190568],
-              [47.234787, -1.358337],
-            ]"
-            color="green"
-          ></l-polyline>
-          <l-polygon
-            :lat-lngs="[
-              [46.334852, -1.509485],
-              [46.342596, -1.328731],
-              [46.241487, -1.190568],
-              [46.234787, -1.358337],
-            ]"
-            color="#41b782"
-            :fill="true"
-            :fillOpacity="0.5"
-            fillColor="#41b782"
-          />
-          <l-rectangle
-            :lat-lngs="[
-              [46.334852, -1.509485],
-              [46.342596, -1.328731],
-              [46.241487, -1.190568],
-              [46.234787, -1.358337],
-            ]"
-            :fill="true"
-            color="#35495d"
-          />
-          <l-rectangle
-            :bounds="[
-              [46.334852, -1.190568],
-              [46.241487, -1.090357],
-            ]"
-          >
-            <l-popup>
-              lol
-            </l-popup>
-          </l-rectangle>
         </l-map>
-        <button @click="changeIcon">New kitten icon</button>
       </div>
     </div>
   </div>
@@ -164,15 +109,10 @@ import Navbar from '../components/Navbar'
 import axios from 'axios'
 import {
   LMap,
-  LIcon,
   LTileLayer,
   LMarker,
   LControlLayers,
-  LTooltip,
-  LPopup,
-  LPolyline,
-  LPolygon,
-  LRectangle,
+  LTooltip
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -181,15 +121,10 @@ export default {
   components: {
     Navbar,
     LMap,
-    LIcon,
     LTileLayer,
     LMarker,
     LControlLayers,
-    LTooltip,
-    LPopup,
-    LPolyline,
-    LPolygon,
-    LRectangle,
+    LTooltip
   },
   data() {
     return {
@@ -197,7 +132,7 @@ export default {
       borderCountries: [],
       loading: false,
       API_BASE_URL: 'https://restcountries.com/v3.1',
-      zoom: 2,
+      zoom: 3,
       iconWidth: 25,
       iconHeight: 40,
     }
