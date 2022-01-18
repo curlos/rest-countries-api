@@ -21,4 +21,7 @@ export default {
   font-family: Nunito Sans;
 }
 
+a {
+  text-decoration: none;
+}
 </style>

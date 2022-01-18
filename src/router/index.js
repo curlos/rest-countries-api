@@ -4,7 +4,7 @@ import CountriesPage from "../pages/CountriesPage";
 
 const routes = [
   {
-    path: "/country/:id",
+    path: "/country/:name",
     name: "CountryDetailsPage",
     component: CountryDetailsPage,
     props: true
