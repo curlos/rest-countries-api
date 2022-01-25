@@ -39,8 +39,11 @@ export default {
 
 <style scoped>
   .countryCard {
+    display: flex;
+    flex-direction: column;
     color: white;
     text-decoration: none;
+    height: 100%;
   }
   .imgFlag {
     width: 100%;
@@ -49,6 +52,7 @@ export default {
   }
 
   .cardDetails {
+    flex: 2;
     margin-top: -6px;
     padding: 25px;
     background-color: var(--darkBlue);

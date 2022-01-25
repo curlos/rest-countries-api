@@ -67,11 +67,21 @@ export default {
       return response.data
     },
     async fetchCountriesQuery() {
-      console.log('fetching')
-      this.loading = true
-      const response = await axios.get(`${this.API_BASE_URL}/name/${this.searchText}`)
-      this.loading = false
-      this.countries = response.data
+      if (this.searchText) {
+        try {
+          console.log('fetching')
+          this.loading = true
+          const response = await axios.get(`${this.API_BASE_URL}/name/${this.searchText}`)
+          this.loading = false
+          this.countries = response.data
+        } catch (err) {
+          this.countries = []
+          this.loading = false
+        }
+        window.scrollTo(0,0)
+      } else {
+        this.countries = await this.fetchCountries()
+      }
     },
     async handleFilterByRegion(region) {
       console.log('fetching')
@@ -80,6 +90,7 @@ export default {
       const response = await axios.get(`${this.API_BASE_URL}/region/${region}`)
       this.loading = false
       this.countries = response.data
+      window.scrollTo(0,0)
     },
     handleDropdownClick() {
       console.log('click')
@@ -104,6 +115,7 @@ export default {
     color: var(--white);
     background-color: var(--veryDarkBlue);
     min-height: 100vh;
+    width: 100vw;
   }
 
   .searchAndFilter {
@@ -140,6 +152,7 @@ export default {
 
   .filterButton {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 40px;
     padding: 15px;
@@ -206,6 +219,59 @@ export default {
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    .searchAndFilter {
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      background-color: var(--veryDarkBlue);
+    }
+
+    .searchContainer, .searchContainer input {
+      width: 100%;
+    }
+
+    .dropdown, .filterButton {
+      width: 100%;
+    }
+
+    .countriesContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px 40px;
+    }
+  }
+
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (max-width: 768px) {
+    .countriesContainer {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    .countriesContainer {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    .countriesContainer {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media only screen and (min-width: 1480px) {
+    .countriesContainer {
+      grid-template-columns: repeat(5, 1fr);
+    }
   }
 
 </style>
