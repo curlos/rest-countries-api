@@ -206,12 +206,12 @@ export default {
 <style scoped>
   .container {
     min-height: 100vh;
-    background-color: var(--veryDarkBlue);
+    background-color: var(--backgroundColor);
   }
 
   .mainPage {
-    color: var(--white);
-    background-color: var(--veryDarkBlue);
+    color: var(--textColor);
+    background-color: var(--backgroundColor);
     padding: 50px;
   }
 
@@ -221,8 +221,8 @@ export default {
     gap: 10px;
     border: none;
     border-radius: 10px;
-    background-color: var(--darkBlue);
-    color: var(--white);
+    color: var(--textColor);
+    background-color: var(--navbarBgColor);
     padding: 10px 30px;
     margin-bottom: 30px;
     cursor: pointer;

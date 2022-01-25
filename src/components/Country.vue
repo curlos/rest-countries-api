@@ -44,6 +44,9 @@ export default {
     color: white;
     text-decoration: none;
     height: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, .1);
   }
   .imgFlag {
     width: 100%;
@@ -55,7 +58,8 @@ export default {
     flex: 2;
     margin-top: -6px;
     padding: 25px;
-    background-color: var(--darkBlue);
+    color: var(--textColor);
+    background-color: var(--navbarBgColor);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
   }

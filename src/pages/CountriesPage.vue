@@ -48,6 +48,10 @@ export default {
     Navbar,
     Country
   },
+  mounted() {
+    let localTheme = localStorage.getItem('theme'); //gets stored theme value if any
+    document.documentElement.setAttribute('data-theme', localTheme); // updates the data-theme attribute
+  },
   data() {
     return {
       countries: [],
@@ -56,7 +60,8 @@ export default {
       searchText: '',
       loading: false,
       showDropdown: false,
-      API_BASE_URL: 'https://restcountries.com/v3.1'
+      API_BASE_URL: 'https://restcountries.com/v3.1',
+      theme: ''
     }
   },
   methods: {
@@ -111,11 +116,20 @@ export default {
 </script>
 
 <style scoped>
+  :root {
+    --background-color: var(--lightGray);
+  }
+
+  [data-theme="darkMode"] {
+    --background-color: var(--veryDarkBlue);
+  }
+
   .container {
     color: var(--white);
-    background-color: var(--veryDarkBlue);
+    background-color: var(--backgroundColor);
     min-height: 100vh;
     width: 100vw;
+    max-width: 100%;
   }
 
   .searchAndFilter {
@@ -129,7 +143,8 @@ export default {
     display: flex;
     align-items: center;
     gap: 15px;
-    background-color: var(--darkBlue);
+    color: var(--textColor);
+    background-color: var(--navbarBgColor);
     padding: 15px 25px;
     border-radius: 10px;
     width: 40%;
@@ -138,7 +153,7 @@ export default {
   .searchContainer input {
     background-color: transparent;
     border: none;
-    color: var(--white);
+    color: var(--textColor);
     outline: none;
     width: 100%;
   }
@@ -158,7 +173,8 @@ export default {
     padding: 15px;
     padding-left: 20px;
     padding-right: 20px;
-    background-color: var(--darkBlue);
+    color: var(--textColor);
+    background-color: var(--navbarBgColor);
     border-radius: 10px;
     cursor: pointer;
   }
@@ -171,7 +187,8 @@ export default {
   .dropdown-content {
     display: block;
     position: absolute;
-    background-color: var(--darkBlue);
+    color: var(--textColor);
+    background-color: var(--navbarBgColor);
     width: 100%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     margin-top: 5px;
@@ -195,7 +212,7 @@ export default {
   }
 
   .dropdown-item:hover {
-    background-color: var(--lightDarkBlue);
+    background-color: var(--hoverColor);
   }
   
   .loaderContainer {
