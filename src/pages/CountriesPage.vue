@@ -245,7 +245,7 @@ export default {
       gap: 20px;
       position: sticky;
       top: 0;
-      background-color: var(--veryDarkBlue);
+      background-color: var(--backgroundColor);
     }
 
     .searchContainer, .searchContainer input {

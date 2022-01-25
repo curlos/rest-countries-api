@@ -309,13 +309,14 @@ export default {
   }
 
   .borderCountry {
-    background-color: var(--darkBlue);
+    color: var(--textColor);
+    background-color: var(--navbarBgColor);
     padding: 5px 20px;
     border-radius: 7px;
   }
 
   .borderCountry:hover {
-    background-color: var(--lightDarkBlue);
+    background-color: var(--hoverColor);
   }
 
   .countryMap {
