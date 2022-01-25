@@ -69,6 +69,7 @@ export default {
       this.loading = true
       const response = await axios.get(`${this.API_BASE_URL}/all`)
       this.loading = false
+      console.log(response.data)
       return response.data
     },
     async fetchCountriesQuery() {
