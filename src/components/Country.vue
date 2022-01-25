@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="'/country/' + country.name.common" exact>
+  <router-link :to="'/country/' + country.cca2" exact>
     <div class="countryCard">
       <div class="flag">
         <img v-bind:src="country.flags.svg || country.flags.png" class="imgFlag"/>

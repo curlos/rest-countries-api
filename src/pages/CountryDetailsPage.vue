@@ -28,22 +28,26 @@
 
               <div className="countrySection">
                 <span className="bold">Population:</span>
-                <span className="thin">{{ Number(this.country.population).toLocaleString() }}</span>
+                <span className="thin">{{ this.country.population && this.country.population > 0 ? (
+                  Number(this.country.population).toLocaleString()
+                ) : (
+                  'N/A'
+                ) }}</span>
               </div>
 
               <div className="countrySection">
                 <span className="bold">Region:</span>
-                <span className="thin">{{ this.country.region }}</span>
+                <span className="thin">{{ this.country.region ? this.country.region : 'N/A'  }}</span>
               </div>
 
               <div className="countrySection">
                 <span className="bold">Sub Region:</span>
-                <span className="thin">{{ this.country.subregion }}</span>
+                <span className="thin">{{ this.country.subregion ? this.country.subregion : 'N/A' }}</span>
               </div>
 
               <div className="countrySection">
                 <span className="bold">Capital:</span>
-                <span className="thin">{{ this.country.capital[0] }}</span>
+                <span className="thin">{{ this.country.capital ? this.country.capital[0] : 'N/A' }}</span>
               </div>
             </div>
 
@@ -59,6 +63,10 @@
                 <span className="thin" :key="currency" v-for="currency in this.country.currencies">
                   {{ currency.name }}
                 </span>
+
+                <span v-if="!this.country.currencies" class="thin">
+                  N/A
+                </span>
               </div>
 
               <div className="countrySection">
@@ -66,6 +74,10 @@
                 
                 <span className="thin">
                   {{ Object.values(this.country.languages).join(', ') }}
+                </span>
+
+                <span v-if="this.country.languages.length === 0">
+                  N/A
                 </span>
               </div>
             </div>
@@ -77,16 +89,20 @@
             </div>
 
             <div className="borderCountries">
-              <router-link :to="'/country/' + country.name.common" :key="country.name.common" v-for="country in this.borderCountries" className="borderCountry">
+              <router-link :to="'/country/' + country.cca2" :key="country.name.common" v-for="country in this.borderCountries" className="borderCountry">
                 {{ country.name.common }}
               </router-link>
+
+              <div v-if="this.borderCountries.length === 0">
+                N/A
+              </div>
             </div>
           </div>
 
         </div>
       </div>
 
-      <div class="countryMap">
+      <div v-if="Object.keys(country.capitalInfo).length > 0" class="countryMap">
         <l-map
           v-model="zoom"
           v-model:zoom="zoom"
@@ -152,26 +168,22 @@ export default {
   },
   methods: {
     async fetchCountry(name) {
-      const response = await axios.get(`${this.API_BASE_URL}/name/${name}`)
-      console.log(response.data[0])
+      const response = await axios.get(`${this.API_BASE_URL}/alpha/codes=${name}`)
+      console.log(response.data)
       return response.data[0]
     },
     async fetchBorderCountries(borders) {
       if (borders) {
-        console.log(borders)
         let newBorderCountries = []
         // this pushes all the countries correctly but return skips past for loop, need to wait for loop to finish first before returning
         for (let border of borders) {
           try {
             const country = await this.fetchCountry(border)
-            console.log(country)
             newBorderCountries.push(country)
           } catch (err) {
             console.error(err)
           }
         }
-
-        console.log(newBorderCountries)
 
         return newBorderCountries
       } else {
@@ -282,7 +294,7 @@ export default {
     display: flex;
     align-items: center;
     margin-top: 20px;
-    gap: 15px;
+    gap: 5px;
   }
 
   .borderCountriesLabel {
