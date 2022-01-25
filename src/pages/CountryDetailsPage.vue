@@ -71,23 +71,28 @@
             </div>
           </div>
 
-          <div className="borderCountries">
-            <div>Border Countries: </div>
+          <div class="borderCountriesContainer">
+            <div class="borderCountriesLabel">
+            Border Countries:
+            </div>
 
-            <router-link :to="'/country/' + country.name.common" :key="country.name.common" v-for="country in this.borderCountries" className="borderCountry">
-              {{ country.name.common }}
-            </router-link>
+            <div className="borderCountries">
+              <router-link :to="'/country/' + country.name.common" :key="country.name.common" v-for="country in this.borderCountries" className="borderCountry">
+                {{ country.name.common }}
+              </router-link>
+            </div>
           </div>
 
         </div>
       </div>
 
-      <div style="height: 75vh; width: 50vw;">
+      <div class="countryMap">
         <l-map
           v-model="zoom"
           v-model:zoom="zoom"
           :center="[country.capitalInfo.latlng[0], country.capitalInfo.latlng[1]]"
           @move="log('move')"
+          class="map"
         >
           <l-tile-layer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -219,6 +224,7 @@ export default {
     background-color: var(--darkBlue);
     color: var(--white);
     padding: 10px 30px;
+    margin-bottom: 30px;
     cursor: pointer;
   }
   
@@ -272,12 +278,22 @@ export default {
     font-weight: 300;
   }
 
+  .borderCountriesContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    gap: 15px;
+  }
+
+  .borderCountriesLabel {
+    font-weight: bold;
+  }
+
   .borderCountries {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 20px;
   }
 
   .borderCountry {
@@ -289,6 +305,49 @@ export default {
   .borderCountry:hover {
     background-color: var(--lightDarkBlue);
   }
+
+  .countryMap {
+    height: 500px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .map {
+    height: 100%;
+    width: 100%;
+  }
+
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    .mainPage {
+      padding: 30px 10px;
+    }
+
+    .countryDetails {
+      flex-direction: column;
+    }
+
+    .borderCountriesContainer {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .countryMap {
+      padding: 20px;
+    }
+  }
+
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (max-width: 768px) {
+
+
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    
+  }
+
 
   @media only screen and (max-width: 1024px) {
     .countryInfo {
@@ -303,6 +362,16 @@ export default {
       width: 100%;
       padding: 20px;
     }
+    
+  }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    
+  }
+
+  @media only screen and (min-width: 1480px) {
+    
   }
 
 </style>
