@@ -7,12 +7,24 @@
           <i class="fas fa-search"></i>
         </div>
 
-        <input placeholder="Search for a country..."/>
+        <input type="text" placeholder="Search for a country..." v-model="searchText" />
       </div>
 
-      <div>
-        Filter by region
+      <div class="dropdown">
+        <div @click="handleDropdownClick" class="filterButton">
+          Filter by region <i class="fas fa-chevron-down"></i>
+        </div>
+
+        <div v-if="showDropdown" class="dropdown-content">
+          <div :key="region" v-for="region in regions" @click="() => handleFilterByRegion(region)" class="dropdown-item">
+            {{ region }}
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div v-if="loading" class="loaderContainer">
+      <div class="loader" />
     </div>
 
     <div v-if="!loading" class="countriesContainer">
@@ -28,6 +40,7 @@
 import Navbar from '../components/Navbar'
 import Country from '../components/Country'
 import axios from 'axios'
+import _ from 'lodash'
 
 export default {
   name: 'CountriesPage',
@@ -39,8 +52,10 @@ export default {
     return {
       countries: [],
       filteredCountries: [],
+      regions: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'],
       searchText: '',
       loading: false,
+      showDropdown: false,
       API_BASE_URL: 'https://restcountries.com/v3.1'
     }
   },
@@ -48,15 +63,37 @@ export default {
     async fetchCountries() {
       this.loading = true
       const response = await axios.get(`${this.API_BASE_URL}/all`)
-      console.log(response)
-      console.log(response.data)
       this.loading = false
       return response.data
     },
+    async fetchCountriesQuery() {
+      console.log('fetching')
+      this.loading = true
+      const response = await axios.get(`${this.API_BASE_URL}/name/${this.searchText}`)
+      this.loading = false
+      this.countries = response.data
+    },
+    async handleFilterByRegion(region) {
+      console.log('fetching')
+      this.showDropdown = false
+      this.loading = true
+      const response = await axios.get(`${this.API_BASE_URL}/region/${region}`)
+      this.loading = false
+      this.countries = response.data
+    },
+    handleDropdownClick() {
+      console.log('click')
+      this.showDropdown = !this.showDropdown
+    }
   },
   async created() {
     const newCountries = await this.fetchCountries()
     this.countries = newCountries
+  },
+  watch: {
+    searchText: _.debounce(function() {
+      this.fetchCountriesQuery()
+    }, 1000)
   }
   
 }
@@ -99,6 +136,76 @@ export default {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+  }
+
+  .filterButton {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: var(--darkBlue);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: var(--darkBlue);
+    width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    margin-top: 5px;
+    border-radius: 10px;
+    z-index: 1;
+  }
+
+  .dropdown-item:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .dropdown-item:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .dropdown-item {
+    cursor: pointer;
+    padding: 12px 20px;
+  }
+
+  .dropdown-item:hover {
+    background-color: var(--lightDarkBlue);
+  }
+  
+  .loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    max-width: 100%;
+    height: 60vh;
+  }
+
+  .loader {
+    border: 8px solid var(--lightDarkBlue); /* Light grey */
+    border-top: 8px solid #ffffff; /* Blue */
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
 </style>
