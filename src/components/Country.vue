@@ -10,7 +10,7 @@
 
         <div class="smallLabel">
           <span class="boldLabel">Population:</span>
-          <span>{{ Number(country.population).toLocaleString() }}</span>
+          <span>{{ Number(country.population).toLocaleString() > 0 ? Number(country.population).toLocaleString() : 'N/A' }}</span>
         </div>
 
         <div class="smallLabel">
